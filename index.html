@@ -152,10 +152,12 @@
 		document.getElementById('score').innerHTML = score;
 	}
 
-	function detectCollision(){ 
+	function detectCollision(){
+		let mySound = new Audio('explosion effect.wav');
 		for (let i = 0; i < bullets.length; i++) {
 			for (let j = 0; j < enemies.length; j++) {
 				if(Math.abs(bullets[i].x-5 - enemies[j].x-5) < 10 && Math.abs(bullets[i].y - enemies[j].y) < 10){
+					mySound.play(); 
 					score += 10;
 					document.getElementById('enemies').innerHTML = "<div class='explode' style='top:"+enemies[j].y+"px; left:"+enemies[j].x+"px;'></div>";
 					enemies[j].y = 0;
@@ -176,6 +178,8 @@
 					document.getElementById('hero').style['display'] = "block";
 				}, 50);
 				console.log("Patay!");
+				let crash = new Audio('crash effect.wav');
+				crash.play();
 				score -= 500; 
 			}
 		}	
