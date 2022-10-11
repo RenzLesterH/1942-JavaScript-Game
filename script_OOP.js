@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function() { 
     const explode = new Audio('explosion effect.wav');
     const crash = new Audio('crash effect.wav');
     
@@ -48,7 +48,7 @@ window.onload = function() {
         detectCollision(bullets, enemy_type, enemy_id){
             for (let i = 0; i < bullets.length; i++) {
                 for (let j = 0; j < enemy_type.length; j++) {
-                    if(Math.abs(bullets[i].x-5 - enemy_type[j].x-5) < 10 && Math.abs(bullets[i].y - enemy_type[j].y) < 10){
+                    if(Math.abs(bullets[i].x-3 - enemy_type[j].x-3) < 10 && Math.abs(bullets[i].y - enemy_type[j].y) < 10){
                         this.explode.play(); 
                         this.score += 10;
                         document.getElementById(enemy_id).innerHTML = "<div class='explode' style='top:"+enemy_type[j].y+"px; left:"+enemy_type[j].x+"px;'></div>";

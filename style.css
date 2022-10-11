@@ -1,3 +1,6 @@
+*{
+    /* outline: 1px solid white; */
+}
 body{
     background-color:black;
 }
@@ -15,11 +18,10 @@ body{
 }
 .enemy1{
     background: url('1942.gif');
-    background-position: -30px -10px;
-    /* background-position: -50px -62px; */
+    background-position: -32px -8px;
     width:28px;
-    height:28px;
-    position:absolute;
+    height:21px;
+    position:absolute; 
 }
 .enemy2{
     background: url('1942.gif');
@@ -37,9 +39,9 @@ body{
 }
 .bullet{
     background: url('1942.gif');
-    background-position: -185px -400px;
-    width:18px;
-    height:18px;
+    background-position: -140px -400px;
+    width: 14px;
+    height: 15px;
     position:absolute;
 }
 #gameover{
@@ -59,13 +61,22 @@ body{
 #gameover p{
     font-size: 12px;
 }
-#score{
+.scores{
     position:absolute;
-    border:10px solid red;
-    top:20px;
-    left:800px;
+    left:700px;
     background-color:white;
     padding:10px;
-    font-size:30px;
-    font-family: Arial;	
+    font-size:25px;
+    font-family: Arial;
+    border-radius: 5px;	
+}
+
+#score1{
+    border: 5px solid red;
+    top:20px;
+}
+
+#score2{
+    border: 5px solid blue;
+    top:85px;
 }

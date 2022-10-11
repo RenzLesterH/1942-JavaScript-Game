@@ -5,7 +5,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>1942 Game</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<link rel="stylesheet" href="style.css">
+	<script src="script.js"></script>
 </head>
 <body>
 	<div id='container'>
@@ -19,7 +22,16 @@
 		</div>	
 	</div>
 
-	<div id='score'>0</div>
+	<div>
+		<div class='scores' id="score1">
+			<span>Renz =</span>
+			<span>123</span>
+		</div>
+		<div class='scores' id="score2">
+			<span>Lester =</span>
+			<span>23</span>
+		</div>
+	</div>
 
 	<script src="script_OOP.js"></script>
 </body>
