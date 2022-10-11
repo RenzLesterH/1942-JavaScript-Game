@@ -5,40 +5,40 @@ body{
     background-color:black;
 }
 #container{
-    background: url('background.gif');
+    background: url('assets/images/background.gif');
     width:1000px;
     height:550px;
 }
 #hero{
-    background: url('1942.gif');
+    background: url('assets/images/1942.gif');
     background-position: -85px -180px;
     width:28px;
     height:28px;
     position:absolute;
 }
 .enemy1{
-    background: url('1942.gif');
+    background: url('assets/images/1942.gif');
     background-position: -32px -8px;
     width:28px;
     height:21px;
     position:absolute; 
 }
 .enemy2{
-    background: url('1942.gif');
+    background: url('assets/images/1942.gif');
     background-position: -50px -62px;
     width:28px;
     height:28px;
     position:absolute;
 }
 .explode{
-    background: url('1942.gif');
+    background: url('assets/images/1942.gif');
     background-position: -111px -29px;
     width:28px;
     height:28px;
     position:absolute;
 }
 .bullet{
-    background: url('1942.gif');
+    background: url('assets/images/1942.gif');
     background-position: -140px -400px;
     width: 14px;
     height: 15px;

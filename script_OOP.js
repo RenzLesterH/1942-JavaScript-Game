@@ -1,6 +1,6 @@
 window.onload = function() { 
-    const explode = new Audio('explosion effect.wav');
-    const crash = new Audio('crash effect.wav');
+    const explode = new Audio('assets/game sounds/explosion effect.wav');
+    const crash = new Audio('assets/game sounds/crash effect.wav'); 
     
     class Characters{
         displayHero(hero) {
