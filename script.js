@@ -1,6 +1,6 @@
 window.onload = function() {
-    var mySound = new Audio('explosion effect.wav');
-    var crash = new Audio('crash effect.wav');
+    const mySound = new Audio('explosion effect.wav');
+    const crash = new Audio('crash effect.wav');
     let score = 0;
     const hero = {
         x: 300,
@@ -108,13 +108,12 @@ window.onload = function() {
     }
 
     function detectCollision2(){
-        
         for (let i = 0; i < bullets.length; i++) {
             for (let j = 0; j < enemies2.length; j++) {
                 if(Math.abs(bullets[i].x-5 - enemies2[j].x-5) < 10 && Math.abs(bullets[i].y - enemies2[j].y) < 10){
                     mySound.play(); 
                     score += 10;
-                    document.getElementById('enemies').innerHTML = "<div class='explode' style='top:"+enemies2[j].y+"px; left:"+enemies2[j].x+"px;'></div>";
+                    document.getElementById('enemies2').innerHTML = "<div class='explode' style='top:"+enemies2[j].y+"px; left:"+enemies2[j].x+"px;'></div>";
                     enemies2[j].y = 0;
                     bullets[i]  = bullets[bullets.length-1];
                     bullets.pop();	 
