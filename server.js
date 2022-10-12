@@ -22,12 +22,16 @@ app.set('view engine', 'ejs');
 
 const server = app.listen(1337);
 const io = require('socket.io')(server);
+var player1_choose = false;
+var player2_choose = false;
 var player1 = "";
 var player2 = "";
 var player1_score = 0;
 var player2_score = 0;
 
 app.get("/", function (request, response){
+    player1_choose = false;
+    player2_choose = false;
     player1 = "";
     player2 = "";
     player1_score = 0;
@@ -36,6 +40,24 @@ app.get("/", function (request, response){
 })
 
 io.on('connection', function (socket) {
+
+    socket.on('player_choose', function (data) {
+        if(data == "p1" ){
+            if(player1_choose == false){
+                player1_choose = true;
+                socket.emit('player_already_choosed', {available: "Yes"});
+            }else if(player1_choose == true){
+                socket.emit('player_already_choosed', {available: "No"});
+            }
+        }else if(data == "p2"){
+            if(player2_choose == false){
+                player2_choose = true;
+                socket.emit('player_already_choosed', {available: "Yes"});
+            }else if(player2_choose == true){
+                socket.emit('player_already_choosed', {available: "No"});
+            }
+        }
+    });
 
     socket.on('user_joined', function (data) {
         if(data.player_type == "p1"){

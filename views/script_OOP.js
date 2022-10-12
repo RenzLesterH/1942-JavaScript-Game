@@ -149,10 +149,18 @@ window.onload = function() {
     $( "#idle_player" ).hide();
 
     $( ".player_btn" ).click(function() {
-        $( ".choose_player" ).hide();
-        $( "#player_form" ).show();
         var id = $(this).attr("id");
-        $( "#player_type" ).val(id);  
+        $( "#player_type" ).val(id);
+        socket.emit('player_choose', id);  
+    });
+
+    socket.on('player_already_choosed', function (data) {
+        if (data.available == "Yes") {
+            $( ".choose_player" ).hide();
+            $( "#player_form" ).show();
+        }else if(data.available == "No"){
+            alert("Player has been already choosed, please select other player.");
+        }
     });
 
     $( "#player_form" ).submit(function() {
