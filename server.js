@@ -30,6 +30,8 @@ var player2_score = 0;
 app.get("/", function (request, response){
     player1 = "";
     player2 = "";
+    player1_score = 0;
+    player2_score = 0;
     response.render('index');
 })
 
@@ -62,12 +64,12 @@ io.on('connection', function (socket) {
         }
     });
 
-    socket.on('game_over', function () {
+    socket.on('game_over', function (data) {
         if(player1_score > player2_score){
-            io.emit('winner', {winner_name: player1, winner_score: player1_score});
+            io.emit('winner', {winner_name: player1, winner_score: player1_score, stop_game:data});
             console.log(player1);
         }else if(player1_score < player2_score){
-            io.emit('winner', {winner_name: player2, winner_score: player2_score});
+            io.emit('winner', {winner_name: player2, winner_score: player2_score, stop_game:data});
             console.log(player2);
         }
     });

@@ -75,10 +75,11 @@ window.onload = function() {
             }	
         }
 
-        displayScore(game) {
+        displayScore(game, status) {
             var player_score = $( "#hero" ).val();
             var other_player_score = $( "#other_player" ).val();
-            if(this.score < 0){
+            if(this.score < 0 || status){
+                console.log("here");
                 clearInterval(game);
                 is_gameOver = false;
                 document.getElementById('hero').style['display'] = "none";
@@ -87,13 +88,12 @@ window.onload = function() {
                 document.getElementById('bullets').innerHTML = "";
                 document.getElementById('gameover').style['display'] = "block";
                 document.getElementById(player_score).innerHTML = 0;
-                socket.emit('game_over');
+                socket.emit('game_over', game);
             }else{
                 document.getElementById(player_score).innerHTML = this.score;
                 socket.emit('other_player_score',{my_score: this.score, other_player: other_player_score});
-                // console.log(this.score);	
             }
-        }
+        } 
 
     }
 // ==================================================================================================================
@@ -122,7 +122,7 @@ window.onload = function() {
         game_detection.detectCollision(bullets, enemies2, "enemies2");
         game_detection.detectCollisionEnemies(enemies, hero);
         game_detection.detectCollisionEnemies(enemies2, hero);
-        game_detection.displayScore(game);   
+        game_detection.displayScore(game, false);   
     }
 
     document.onkeydown = function(key){
@@ -195,13 +195,15 @@ window.onload = function() {
     });
     
     socket.on('winner', function (data) {
+        document.getElementById('gameover').style['display'] = "block";
         var result = "";
         result += "<h2>Game Over <span>"+data.winner_name+" Win the Game!</span></h2>";
         result += "<p id='win_score'>Winners Score: "+data.winner_score+"</p>";
         result += "<p>Refresh the page to play again!</p>";
         $( ".scores" ).hide();
         $("#gameover").html(result);
-        clearInterval(game);
+        game_detection.displayScore(data.stop_game, true);
+        clearInterval(data.stop_game);
     }); 
 
 }
