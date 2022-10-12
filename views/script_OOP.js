@@ -141,13 +141,13 @@ window.onload = function() {
 
     var socket = io();
 
-    // let name = prompt("What's your sign?");
-    // if (name) {
-    //     socket.emit('user_joined', { name: name });
-    // } else {
-    //     alert("You need to enter you name firts to join!");
-    //     location.reload();
-    // }
+    $( "#player_form" ).hide();
+    $( ".player_btn" ).click(function() {
+        $( ".choose_player" ).hide();
+        $( "#player_form" ).show();
+        var id = $(this).attr("id");
+        $( "#player_type" ).val(id);  
+    });
 
     socket.on('player_name', function (data) {
         var result = "";

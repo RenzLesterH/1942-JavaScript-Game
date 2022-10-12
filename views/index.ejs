@@ -16,10 +16,11 @@
 	<div id='container'>
 		<div class="card p-3 border-light bg-dark">
 			<h3 class="choose_player">Choose what player you are</h3>
-			<button type="button" class="choose_player player_btn btn btn-danger">Player 1</button>
-			<button type="button" class="choose_player player_btn btn btn-primary">Player 2</button>
+			<button type="button" id="p1" class="choose_player player_btn btn btn-danger">Player 1</button>
+			<button type="button" id="p2" class="choose_player player_btn btn btn-primary">Player 2</button>
 			<form class="p-1" id="player_form">
 				<h3>Choose your name</h3>
+				<input type="hidden" name="" id="player_type">
 				<input type="text" class="form-control" id="player_name" required>
 				<input type="submit" class="btn btn-success mt-2 col-md-12 text-center" value="Submit">
 			</form>
