@@ -1,6 +1,6 @@
 window.onload = function() { 
     const explode = new Audio('assets/game sounds/explosion effect.wav');
-    const crash = new Audio('assets/game sounds/crash effect.wav'); 
+    const crash = new Audio('assets/game sounds/crash effect.wav');
     
     class Characters{
         displayHero(hero) {
@@ -119,7 +119,7 @@ window.onload = function() {
         game_detection.displayScore(game);   
     }
 
-    const game = setInterval(gameLoop, 50);
+    // const game = setInterval(gameLoop, 50);
 
     document.onkeydown = function(key){
         if(key.keyCode == 37 && is_gameOver && hero.x > 0){
@@ -136,4 +136,22 @@ window.onload = function() {
         }
         character.displayHero(hero);
     }
+
+// =============================================================================
+
+    var socket = io();
+
+    // let name = prompt("What's your sign?");
+    // if (name) {
+    //     socket.emit('user_joined', { name: name });
+    // } else {
+    //     alert("You need to enter you name firts to join!");
+    //     location.reload();
+    // }
+
+    socket.on('player_name', function (data) {
+        var result = "";
+        result += data+" ="; 
+        $("#player1").html(result);
+    });
 }
