@@ -74,18 +74,19 @@ window.onload = function() {
             }	
         }
 
-        displayScore(game) {
+        displayScore() {
             if(this.score < 0){
-                clearInterval(game);
+                // clearInterval(game);
                 is_gameOver = false;
                 document.getElementById('hero').style['display'] = "none";
                 document.getElementById('enemies').innerHTML = "";
                 document.getElementById('enemies2').innerHTML = "";
                 document.getElementById('bullets').innerHTML = "";
                 document.getElementById('gameover').style['display'] = "block";
-                document.getElementById('score').innerHTML = 0;
+                document.getElementById('player1_score').innerHTML = 0;
             }else{
-                document.getElementById('score').innerHTML = this.score;	
+                document.getElementById('player1_score').innerHTML = this.score;
+                // console.log(this.score);	
             }
         }
 
@@ -116,7 +117,7 @@ window.onload = function() {
         game_detection.detectCollision(bullets, enemies2, "enemies2");
         game_detection.detectCollisionEnemies(enemies, hero);
         game_detection.detectCollisionEnemies(enemies2, hero);
-        game_detection.displayScore(game);   
+        game_detection.displayScore();   
     }
 
     // const game = setInterval(gameLoop, 50);
@@ -142,6 +143,10 @@ window.onload = function() {
     var socket = io();
 
     $( "#player_form" ).hide();
+    $( ".scores" ).hide();
+    $( "#hero" ).hide();
+    $( "#idle_player" ).hide();
+
     $( ".player_btn" ).click(function() {
         $( ".choose_player" ).hide();
         $( "#player_form" ).show();
@@ -149,9 +154,32 @@ window.onload = function() {
         $( "#player_type" ).val(id);  
     });
 
-    socket.on('player_name', function (data) {
+    $( "#player_form" ).submit(function() {
+        let player_type = $( "#player_type" ).val();
+        let player_name = $( "#player_name" ).val();
+        socket.emit('user_joined',{player_type: player_type, player_name: player_name});
+        return false;
+    });
+
+    socket.on('player_details', function (data) {
         var result = "";
-        result += data+" ="; 
-        $("#player1").html(result);
+        result += data.name+" =";
+        if (data.player == "p1") {
+            $("#player1").html(result);
+        }else if (data.player == "p2"){
+            $("#player2").html(result);
+        }
+    });
+
+    socket.on('close_card', function () {
+        $( "#player_form" ).hide();
+        $( "#idle_player" ).show();        
+    });
+
+    socket.on('players_ready', function () {
+        $( ".card" ).hide();
+        $( ".scores" ).show();
+        $( "#hero" ).show();
+        const game = setInterval(gameLoop, 50);        
     });
 }
