@@ -70,7 +70,7 @@ body{
     color: white;
     position:absolute;
     text-align: center;
-    margin: 210px 0px 0px 350px;
+    margin: 150px 0px 0px 350px;
     display: none;
 }
 #gameover h2{
@@ -79,9 +79,18 @@ body{
     width: 220px;
     margin: 0px auto;
 }
+#gameover h2 span{
+    color: lime;
+    font-size: 23px;
+}
 #gameover p{
-    margin-top: 5px;
     font-size: 12px;
+    padding: 0px;
+    margin: 0px;
+}
+#gameover p#win_score{
+    margin: 10px 0px;
+    font-size: 19px;
 }
 .scores{
     position:absolute;

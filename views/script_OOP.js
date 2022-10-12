@@ -1,6 +1,7 @@
 window.onload = function() { 
     const explode = new Audio('assets/game sounds/explosion effect.wav');
     const crash = new Audio('assets/game sounds/crash effect.wav');
+    var socket = io();
     
     class Characters{
         displayHero(hero) {
@@ -74,18 +75,22 @@ window.onload = function() {
             }	
         }
 
-        displayScore() {
+        displayScore(game) {
+            var player_score = $( "#hero" ).val();
+            var other_player_score = $( "#other_player" ).val();
             if(this.score < 0){
-                // clearInterval(game);
+                clearInterval(game);
                 is_gameOver = false;
                 document.getElementById('hero').style['display'] = "none";
                 document.getElementById('enemies').innerHTML = "";
                 document.getElementById('enemies2').innerHTML = "";
                 document.getElementById('bullets').innerHTML = "";
                 document.getElementById('gameover').style['display'] = "block";
-                document.getElementById('player1_score').innerHTML = 0;
+                document.getElementById(player_score).innerHTML = 0;
+                socket.emit('game_over');
             }else{
-                document.getElementById('player1_score').innerHTML = this.score;
+                document.getElementById(player_score).innerHTML = this.score;
+                socket.emit('other_player_score',{my_score: this.score, other_player: other_player_score});
                 // console.log(this.score);	
             }
         }
@@ -105,7 +110,7 @@ window.onload = function() {
     let character = new Characters();
     let game_detection = new Game_Detections(score, explode, crash);
     
-    function gameLoop(){
+    function gameLoop(game){
         character.displayHero(hero); //hero
         character.displayEnemiesOrBullets(enemies,"enemy1","enemies"); //Enemy 1
         character.displayEnemiesOrBullets(enemies2,"enemy2","enemies2"); //Enemy 2
@@ -117,10 +122,8 @@ window.onload = function() {
         game_detection.detectCollision(bullets, enemies2, "enemies2");
         game_detection.detectCollisionEnemies(enemies, hero);
         game_detection.detectCollisionEnemies(enemies2, hero);
-        game_detection.displayScore();   
+        game_detection.displayScore(game);   
     }
-
-    // const game = setInterval(gameLoop, 50);
 
     document.onkeydown = function(key){
         if(key.keyCode == 37 && is_gameOver && hero.x > 0){
@@ -140,8 +143,6 @@ window.onload = function() {
 
 // =============================================================================
 
-    var socket = io();
-
     $( "#player_form" ).hide();
     $( ".scores" ).hide();
     $( "#hero" ).hide();
@@ -159,6 +160,11 @@ window.onload = function() {
         let player_name = $( "#player_name" ).val();
         socket.emit('user_joined',{player_type: player_type, player_name: player_name});
         return false;
+    });
+
+    socket.on('player_type', function (data) {
+        $( "#hero" ).val(data.player_type);
+        $( "#other_player" ).val(data.other_player_type);
     });
 
     socket.on('player_details', function (data) {
@@ -180,6 +186,22 @@ window.onload = function() {
         $( ".card" ).hide();
         $( ".scores" ).show();
         $( "#hero" ).show();
-        const game = setInterval(gameLoop, 50);        
+        console.log($( "#hero" ).val());
+        const game = setInterval(function() { gameLoop(game); }, 50);        
     });
+
+    socket.on('update_other_player_score', function (data) {
+        document.getElementById(data.player_type).innerHTML = data.score;
+    });
+    
+    socket.on('winner', function (data) {
+        var result = "";
+        result += "<h2>Game Over <span>"+data.winner_name+" Win the Game!</span></h2>";
+        result += "<p id='win_score'>Winners Score: "+data.winner_score+"</p>";
+        result += "<p>Refresh the page to play again!</p>";
+        $( ".scores" ).hide();
+        $("#gameover").html(result);
+        clearInterval(game);
+    }); 
+
 }
