@@ -22,6 +22,7 @@ app.set('view engine', 'ejs');
 
 const server = app.listen(1337);
 const io = require('socket.io')(server);
+var is_started_game = false;
 var player1_choose = false;
 var player2_choose = false;
 var player1 = "";
@@ -30,6 +31,7 @@ var player1_score = 0;
 var player2_score = 0;
 
 app.get("/", function (request, response){
+    is_started_game = false;
     player1_choose = false;
     player2_choose = false;
     player1 = "";
@@ -71,6 +73,7 @@ io.on('connection', function (socket) {
         
         if(player1 !== "" && player2 !== ""){
             io.emit('players_ready');
+            is_started_game = true;
         }else{
             socket.emit('close_card');
         }
@@ -89,10 +92,10 @@ io.on('connection', function (socket) {
     socket.on('game_over', function (data) {
         if(player1_score > player2_score){
             io.emit('winner', {winner_name: player1, winner_score: player1_score, stop_game:data});
-            console.log(player1);
         }else if(player1_score < player2_score){
             io.emit('winner', {winner_name: player2, winner_score: player2_score, stop_game:data});
-            console.log(player2);
+        }else if(is_started_game){
+            io.emit('no_winner', {stop_game:data}); 
         }
     });
 

@@ -82,11 +82,11 @@ window.onload = function() {
                 console.log("here");
                 clearInterval(game);
                 is_gameOver = false;
+                document.getElementById('gameover').style['display'] = "block";
                 document.getElementById('hero').style['display'] = "none";
                 document.getElementById('enemies').innerHTML = "";
                 document.getElementById('enemies2').innerHTML = "";
                 document.getElementById('bullets').innerHTML = "";
-                document.getElementById('gameover').style['display'] = "block";
                 document.getElementById(player_score).innerHTML = 0;
                 socket.emit('game_over', game);
             }else{
@@ -203,7 +203,6 @@ window.onload = function() {
     });
     
     socket.on('winner', function (data) {
-        document.getElementById('gameover').style['display'] = "block";
         var result = "";
         result += "<h2>Game Over <span>"+data.winner_name+" Win the Game!</span></h2>";
         result += "<p id='win_score'>Winners Score: "+data.winner_score+"</p>";
@@ -212,6 +211,16 @@ window.onload = function() {
         $("#gameover").html(result);
         game_detection.displayScore(data.stop_game, true);
         clearInterval(data.stop_game);
-    }); 
+    });
+    
+    socket.on('no_winner', function (data) {
+        var result = "";
+        result += "<h2>Game Over</h2>";
+        result += "<p>Refresh the page to play again!</p>";
+        $( ".scores" ).hide();
+        $("#gameover").html(result);
+        game_detection.displayScore(data.stop_game, true);
+        clearInterval(data.stop_game);
+    });
 
 }
