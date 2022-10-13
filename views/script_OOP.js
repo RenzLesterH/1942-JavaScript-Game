@@ -99,6 +99,7 @@ window.onload = function() {
 // ==================================================================================================================
     let score = 0;
     let is_gameOver = true;
+    let is_gameReady = false;
     const hero = {
         x: 300,
         y: 500
@@ -126,19 +127,21 @@ window.onload = function() {
     }
 
     document.onkeydown = function(key){
-        if(key.keyCode == 37 && is_gameOver && hero.x > 0){
-            hero.x -= 10;
-        }else if(key.keyCode == 39 && is_gameOver){
-            hero.x += 10;
-        }else if(key.keyCode == 40 && is_gameOver && hero.y < 530){ // down
-            hero.y += 10;
-        }else if(key.keyCode == 38 && is_gameOver && hero.y > 10){ //up
-            hero.y -= 10;
-        }else if(key.keyCode == 32 && is_gameOver){ //space
-            bullets.push({x: hero.x+8, y: hero.y-15});
-            character.displayEnemiesOrBullets(bullets,"bullet","bullets");
+        if(is_gameReady){
+            if(key.keyCode == 37 && is_gameOver && hero.x > 0){
+                hero.x -= 10;
+            }else if(key.keyCode == 39 && is_gameOver){
+                hero.x += 10;
+            }else if(key.keyCode == 40 && is_gameOver && hero.y < 530){ // down
+                hero.y += 10;
+            }else if(key.keyCode == 38 && is_gameOver && hero.y > 10){ //up
+                hero.y -= 10;
+            }else if(key.keyCode == 32 && is_gameOver){ //space
+                bullets.push({x: hero.x+8, y: hero.y-15});
+                character.displayEnemiesOrBullets(bullets,"bullet","bullets");
+            }
+            character.displayHero(hero);
         }
-        character.displayHero(hero);
     }
 
 // =============================================================================
@@ -194,7 +197,7 @@ window.onload = function() {
         $( ".card" ).hide();
         $( ".scores" ).show();
         $( "#hero" ).show();
-        console.log($( "#hero" ).val());
+        is_gameReady = true; 
         const game = setInterval(function() { gameLoop(game); }, 50);        
     });
 
